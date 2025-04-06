@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { ImageObject } from "./types/ImageObject";
 
 export const App = () => {
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState<ImageObject[]>([]);
 
   const handleButtonClick = async () => {
+    // @ts-expect-error: TODO add types for electronAPI
     const data = await window.electronAPI.openFile();
     setImages(data);
   };
@@ -15,6 +17,7 @@ export const App = () => {
       {images.map((image) => (
         <div key={image.imagePath}>
           <img src={image.preview} />
+          <pre>{JSON.stringify(image.exif)}</pre>
         </div>
       ))}
     </div>

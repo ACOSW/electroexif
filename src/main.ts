@@ -1,11 +1,14 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'node:path';
 import started from 'electron-squirrel-startup';
+import { FileAPI } from './backend/FileAPI';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (started) {
   app.quit();
 }
+
+const fileApi = new FileAPI()
 
 const createWindow = () => {
   // Create the browser window.
@@ -26,6 +29,7 @@ const createWindow = () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+  fileApi.init()
 };
 
 // This method will be called when Electron has finished

@@ -1,5 +1,15 @@
 import { useState } from "react";
 import { ImageObject } from "./types/ImageObject";
+import {
+  Button,
+  Card,
+  CardBody,
+  ChakraProvider,
+  Grid,
+  GridItem,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
 export const App = () => {
   const [images, setImages] = useState<ImageObject[]>([]);
@@ -11,15 +21,25 @@ export const App = () => {
   };
 
   return (
-    <div>
-      <h1>Hello world</h1>
-      <button onClick={handleButtonClick}>open file</button>
-      {images.map((image) => (
-        <div key={image.imagePath}>
-          <img src={image.preview} />
-          <pre>{JSON.stringify(image.exif)}</pre>
-        </div>
-      ))}
-    </div>
+    <ChakraProvider>
+      <div>
+        <h1>Hello world</h1>
+        <Button onClick={handleButtonClick}>Open file</Button>
+        <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+          {images.map((image) => (
+            <GridItem key={image.imagePath} w="100%">
+              <Card>
+                <Image src={image.preview || ''} />
+                <CardBody>
+                  <Text fontSize="md">
+                    {image.exif.FileName || image.imagePath}
+                  </Text>
+                </CardBody>
+              </Card>
+            </GridItem>
+          ))}
+        </Grid>
+      </div>
+    </ChakraProvider>
   );
 };
